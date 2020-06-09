@@ -1,0 +1,25 @@
+#+TITLE: DOTS
+
+* Deps
+#+BEGIN_SRC 
+sudo apt install git stow
+#+END_SRC
+
+* Setup
+#+BEGIN_SRC
+~$ git clone https://github.com/tfidfwastaken/.dots.git=
+cd .dotfiles/
+stow emacs
+stow mail
+stow vim
+stow konsole --target="~/.local/share/konsole/"
+stow vim-colour --target="~/.vim/base16-railscasts.vim"
+#+END_SRC
+
+* Mail stuff
+#+BEGIN_SRC 
+sudo apt install isync maildir-utils mu4e
+#+END_SRC
+  Setup your gpg stuff. Make a plaintext file called =mailpass= with mail password, encrypt with =gpg= and then =rm mailpass=.
+  Same with =.authinfo= whenever that gets made.
+  
