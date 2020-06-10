@@ -12,8 +12,8 @@ cd .dotfiles/
 stow emacs
 stow mail
 stow vim
-stow konsole --target="~/.local/share/konsole/"
-stow vim-colour --target="~/.vim/base16-railscasts.vim"
+stow konsole --target=/home/atharva/.local/share/konsole/
+stow vim-colour --target=/home/atharva/.vim/base16-railscasts.vim
 #+END_SRC
 
 * Mail stuff

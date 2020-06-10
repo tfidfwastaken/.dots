@@ -11,7 +11,7 @@
   (package-install 'use-package))
 
 ; (require 'benchmark-init)
-; To disable collection of benchmark data after init is done.
+; ; To disable collection of benchmark data after init is done.
 ; (add-hook 'after-init-hook 'benchmark-init/deactivate)
 
 ; (setq initial-frame-alist '((top . 53) (left . 245) (width . 140) (height . 50)))
