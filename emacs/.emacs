@@ -150,47 +150,84 @@
 
 ;; MAIL
 (use-package mu4e
-  :init
   ;; use mu4e for e-mail in emacs
-  (setq mail-user-agent 'mu4e-user-agent)
+  :after mu4e-context
   :ensure nil
   :ensure-system-package mu
-  :defer 15
-  :config
-  (setq mu4e-maildir (expand-file-name "~/.mail/gmail"))
-  (setq mu4e-drafts-folder "/[Gmail].Drafts")
-  (setq mu4e-sent-folder   "/[Gmail].Sent Mail")
-  (setq mu4e-trash-folder  "/[Gmail].Trash")
-  ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
-  (setq mu4e-sent-messages-behavior 'delete)
-  ;; setup some handy shortcuts
-  ;; you can quickly switch to your Inbox -- press ``ji''
-  ;; then, when you want archive some messages, move them to
-  ;; the 'All Mail' folder by pressing ``ma''.
-  (setq mu4e-maildir-shortcuts
-        '(("/Inbox" . ?i)
-          ("/[Gmail].Sent Mail" . ?s)
-          ("/[Gmail].Trash" . ?t)
-          ("/[Gmail].All Mail" . ?a)))
-  ;; allow for updating mail using 'U' in the main view:
-  (setq mu4e-get-mail-command "mbsync gmail")
-  (setq mu4e-change-filenames-when-moving t)
-  ;; something about ourselves
-  (setq
-   user-mail-address "raykar.ath@gmail.com"
-   user-full-name  "Atharva Raykar"
-   mu4e-compose-signature
-   (concat
-    "Atharva Raykar\n"))
+  :init
+  (setq mu4e-maildir (expand-file-name "~/.mail"))
+  (setq mail-user-agent 'mu4e-user-agent)
+  (setq mu4e-user-mail-address-list '("raykar.ath@gmail.com" "pesos@pes.edu"))
+  (setq mu4e-compose-keep-self-cc nil)
   (setq mu4e-update-interval 300)
   (setq mu4e-use-fancy-chars t)
   (setq mu4e-view-show-addresses t)
   (setq mu4e-view-show-images t)
+  (setq mu4e-get-mail-command "mbsync -a") ;; allow for updating mail using 'U' in the main view:
+  (setq mu4e-change-filenames-when-moving t)
+  (setq mu4e-sent-messages-behavior 'delete)
   (setq mu4e-headers-fields
         '( (:date          .  25)    ;; alternatively, use :human-date
            (:flags         .   6)
            (:from          .  22)
-           (:subject       .  nil))))
+           (:subject       .  nil)))
+  (setq mu4e-context-policy 'pick-first)
+  (setq mu4e-compose-context-policy 'always-ask)
+  (setq mu4e-maildir-shortcuts 
+                     '(("/gmail/Inbox" . ?i)
+                       ("/gmail/[Gmail].Sent Mail" . ?s)
+                       ("/gmail/[Gmail].All Mail" . ?a)
+                       ("/pesos/Inbox" . ?I)
+                       ("/pesos/[pesos].Sent Mail" . ?S)
+                       ("/pesos/[pesos].All Mail" . ?A)))
+  (setq mu4e-contexts
+        `(,(make-mu4e-context
+            :name "me"
+            :match-func
+            (lambda (msg) (when msg
+                            (string-prefix-p "/Gmail" (mu4e-message-field msg :maildir))))
+            :vars `((user-mail-address . "raykar.ath@gmail.com")
+                    (mu4e-compose-signature
+                     . ,(concat "Atharva Raykar\n"))
+                    (smtpmail-smtp-user . "raykar.ath@gmail.com")
+                    (user-full-name . "Atharva Raykar")
+                    (mu4e-trash-folder . "/gmail/[Gmail]/Trash")
+                    (mu4e-drafts-folder . "/gmail/[Gmail]/Drafts")
+                    (mu4e-sent-folder . "/gmail/[Gmail].Sent Mail")
+                    (mu4e-refile-folder . "/gmail/[Gmail]/Archive")))
+
+          ,(make-mu4e-context
+            :name "pesos"
+            :match-func
+            (lambda (msg) (when msg
+                            (string-prefix-p "/pesos" (mu4e-message-field msg :maildir))))
+            :vars `((user-mail-address . "pesos@pes.edu")
+                    (mu4e-compose-signature
+                     . ,(concat "Atharva Raykar\n"
+                                "PES Open Source"))
+                    (smtpmail-smtp-user . "pesos@pes.edu")
+                    (user-full-name . "PES Open Source")
+                    (mu4e-trash-folder . "/pesos/[pesos]/Trash")
+                    (mu4e-drafts-folder . "/pesos/[pesos]/Drafts")
+                    (mu4e-sent-folder . "/pesos/[pesos].Sent Mail")
+                    (mu4e-refile-folder . "/pesos/[pesos]/Archive")))))
+  :defer 15)
+;;  (setq mu4e-drafts-folder "/[Gmail].Drafts")
+;;  (setq mu4e-sent-folder   "/[Gmail].Sent Mail")
+;;  (setq mu4e-trash-folder  "/[Gmail].Trash")
+;;  (setq mu4e-maildir-shortcuts
+;;        '(("/Inbox" . ?i)
+;;          ("/[Gmail].Sent Mail" . ?s)
+;;          ("/[Gmail].Trash" . ?t)
+;;          ("/[Gmail].All Mail" . ?a)))
+;;  ;; something about ourselves
+;;  (setq
+;;   user-mail-address "raykar.ath@gmail.com"
+;;   user-full-name  "Atharva Raykar"
+;;   mu4e-compose-signature
+;;   (concat
+;;    "Atharva Raykar\n"))
+
 
 (use-package org-mu4e
   :after mu4e
@@ -205,9 +242,7 @@
   :config
   (setq message-send-mail-function 'smtpmail-send-it
         starttls-use-gnutls t
-        smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-        smtpmail-auth-credentials
-        '(("smtp.gmail.com" 587 "raykar.ath@gmail.com" nil))
+        smtpmail-debug-info t
         smtpmail-default-smtp-server "smtp.gmail.com"
         smtpmail-smtp-server "smtp.gmail.com"
         smtpmail-smtp-service 587)

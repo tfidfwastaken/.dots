@@ -1,4 +1,4 @@
-# Config stolen from Arch wiki
+# Config stolen from Arch wiki and modded for multiple accounts
 IMAPAccount gmail
 # Address to connect to
 Host imap.gmail.com
@@ -37,7 +37,7 @@ Inbox ~/.mail/gmail/Inbox
 Channel gmail-inbox
 Master :gmail-remote:
 Slave :gmail-local:
-Patterns "*"
+Patterns *
 Create Both
 Expunge Both
 SyncState *
@@ -82,3 +82,88 @@ Channel gmail-sent
 Channel gmail-trash
 Channel gmail-all
 Channel gmail-starred
+#####################################################
+
+IMAPAccount pesos
+# Address to connect to
+Host imap.gmail.com
+User pesos@pes.edu
+# To store the password in an encrypted file use PassCmd instead of Pass
+PassCmd "gpg -q --for-your-eyes-only --no-tty -d ~/.mail/.pesospass.gpg"
+#
+# Use SSL
+SSLType IMAPS
+# The following line should work. If get certificate errors, uncomment the two following lines and read the "Troubleshooting" section.
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+#CertificateFile ~/.cert/imap.gmail.com.pem
+#CertificateFile ~/.cert/Equifax_Secure_CA.pem
+
+IMAPStore pesos-remote
+Account pesos
+
+MaildirStore pesos-local
+Subfolders Verbatim
+# The trailing "/" is important
+Path ~/.mail/pesos/
+Inbox ~/.mail/pesos/Inbox
+
+## Channel gmail
+## Master :gmail-remote:
+## Slave :gmail-local:
+## # Exclude everything under the internal [Gmail] folder, except the interesting folders
+## # Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"
+## # Or include everything
+## Patterns *
+## # Automatically create missing mailboxes, both locally and on the server
+## Create Both
+## # Save the synchronization state files in the relevant directory
+## SyncState *
+
+Channel pesos-inbox
+Master :pesos-remote:
+Slave :pesos-local:
+Patterns *
+Create Both
+Expunge Both
+SyncState *
+
+Channel pesos-trash
+Master :pesos-remote:"[Gmail]/Trash"
+Slave :pesos-local:"[pesos].Trash"
+Create Both
+Expunge Both
+SyncState *
+
+Channel pesos-sent
+Master :pesos-remote:"[Gmail]/Sent Mail"
+Slave :pesos-local:"[pesos].Sent Mail"
+Create Both
+Expunge Both
+SyncState *
+
+Channel pesos-all
+Master :pesos-remote:"[Gmail]/All Mail"
+Slave :pesos-local:"[pesos].All Mail"
+Create Both
+Expunge Both
+SyncState *
+
+Channel pesos-starred
+Master :pesos-remote:"[Gmail]/Starred"
+Slave :pesos-local:"[pesos].Starred"
+Create Both
+Expunge Both
+SyncState *
+
+# GROUPS PUT TOGETHER CHANNELS, SO THAT WE CAN INVOKE
+# MBSYNC ON A GROUP TO SYNC ALL CHANNELS
+#
+# FOR INSTANCE: "mbsync gmail" GETS MAIL FROM
+# "gmail-inbox", "gmail-sent", and "gmail-trash"
+#
+Group pesos
+Channel pesos-inbox
+Channel pesos-sent
+Channel pesos-trash
+Channel pesos-all
+Channel pesos-starred
