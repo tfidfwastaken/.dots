@@ -50,7 +50,7 @@
  '(markdown-header-scaling-values (quote (2.5 1.7 1.4 1.1 1.0 1.0)))
  '(package-selected-packages
    (quote
-    (evil-org use-package-ensure-system-package evil-collection org-bullets load-theme-buffer-local dashboard helm-projectile projectile all-the-icons-dired doom-modeline poet-theme deadgrep benchmark-init esup helm-ag helm-rg php-boris-minor-mode php-mode phps-mode cider gnu-elpa-keyring-update evil-magit magit yaml-mode go-mode color-theme-sanityinc-tomorrow visual-fill-column olivetti solidity-mode rainbow-delimiters racket-mode powerline seti-theme dracula-theme sublime-themes orgalist molokai-theme evil))))
+    (org-mu4e ox-twbs evil-org use-package-ensure-system-package evil-collection org-bullets load-theme-buffer-local dashboard helm-projectile projectile all-the-icons-dired doom-modeline poet-theme deadgrep benchmark-init esup helm-ag helm-rg php-boris-minor-mode php-mode phps-mode cider gnu-elpa-keyring-update evil-magit magit yaml-mode go-mode color-theme-sanityinc-tomorrow visual-fill-column olivetti solidity-mode rainbow-delimiters racket-mode powerline seti-theme dracula-theme sublime-themes orgalist molokai-theme evil))))
 
 (eval-when-compile
   (require 'use-package))
