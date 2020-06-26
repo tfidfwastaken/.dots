@@ -17,12 +17,12 @@
 ; (setq initial-frame-alist '((top . 53) (left . 245) (width . 140) (height . 50)))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (setq frame-resize-pixelwise t)
-
-;(set-face-attribute 'default nil :family "Source Code Pro" :height 120)
+(setq-default line-spacing 0.2)
+(set-face-attribute 'default nil :family "Go Mono" :height 120)
 (set-face-attribute 'variable-pitch nil :family "Public Sans" :height 140)
-(set-face-attribute 'fixed-pitch nil :family "Source Code Pro")
+(set-face-attribute 'fixed-pitch nil :family "Go Mono")
 (add-to-list 'default-frame-alist
-                       '(font . "Source Code Pro-12:medium"))
+                       '(font . "Go Mono-12:regular"))
 (setq-default indent-tabs-mode nil)
 (setq c-default-style "linux"
                        c-basic-offset 4)
@@ -50,14 +50,21 @@
  '(markdown-header-scaling-values (quote (2.5 1.7 1.4 1.1 1.0 1.0)))
  '(package-selected-packages
    (quote
-    (org-mu4e ox-twbs evil-org use-package-ensure-system-package evil-collection org-bullets load-theme-buffer-local dashboard helm-projectile projectile all-the-icons-dired doom-modeline poet-theme deadgrep benchmark-init esup helm-ag helm-rg php-boris-minor-mode php-mode phps-mode cider gnu-elpa-keyring-update evil-magit magit yaml-mode go-mode color-theme-sanityinc-tomorrow visual-fill-column olivetti solidity-mode rainbow-delimiters racket-mode powerline seti-theme dracula-theme sublime-themes orgalist molokai-theme evil))))
+    (doom-themes org-mu4e ox-twbs evil-org use-package-ensure-system-package evil-collection org-bullets load-theme-buffer-local dashboard helm-projectile projectile all-the-icons-dired doom-modeline poet-theme deadgrep benchmark-init esup helm-ag helm-rg php-boris-minor-mode php-mode phps-mode cider gnu-elpa-keyring-update evil-magit magit yaml-mode go-mode color-theme-sanityinc-tomorrow visual-fill-column olivetti solidity-mode rainbow-delimiters racket-mode powerline seti-theme dracula-theme sublime-themes orgalist molokai-theme evil))))
 
 (eval-when-compile
   (require 'use-package))
 (use-package use-package-ensure-system-package
   :ensure t)
-(use-package dracula-theme
-  :ensure t)
+(use-package doom-themes
+  :config
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-dracula t)
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config))
+; (use-package dracula-theme
+;   :ensure t)
 (use-package olivetti
   :ensure t)
 (use-package deadgrep
