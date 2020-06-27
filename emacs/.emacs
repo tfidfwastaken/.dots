@@ -61,11 +61,12 @@
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (load-theme 'doom-dracula t)
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config))
+  (doom-themes-visual-bell-config))
 ; (use-package dracula-theme
 ;   :ensure t)
 (use-package olivetti
+  :config
+  (setq olivetti-body-width 120)
   :ensure t)
 (use-package deadgrep
   :init (defalias 'rg 'deadgrep)
@@ -300,6 +301,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(outline-1 ((t (:foreground "#ff79c6" :weight bold :height 1.3))))
+ '(outline-2 ((t (:inherit outline-1 :foreground "#bd93f9" :weight normal :height 0.8))))
+ '(outline-3 ((t (:inherit outline-1 :foreground "#d4b8fb" :weight normal :height 0.8))))
+ '(outline-4 ((t (:inherit outline-3 :foreground "#ffa7d9"))))
+ '(outline-5 ((t (:inherit outline-3 :foreground "#e4d3fc"))))
+ '(outline-6 ((t (:inherit outline-3 :foreground "#ffc9e8"))))
+ '(outline-7 ((t (:inherit outline-3 :foreground "#f5eefe"))))
+ '(outline-8 ((t (:foreground "#dff2ff" :weight normal)))))
 
 (setq initial-buffer-choice "~/org/todo.org")
