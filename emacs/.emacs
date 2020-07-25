@@ -47,10 +47,11 @@
  '(helm-ag-base-command "rg --no-heading")
  '(helm-completion-style (quote emacs))
  '(markdown-header-scaling t)
- '(markdown-header-scaling-values (quote (2.5 1.7 1.4 1.1 1.0 1.0)))
+ '(markdown-header-scaling-values (quote (1.7 1.5 1.2 1.0 1.0 1.0)))
+ '(org-export-backends (quote (ascii beamer html icalendar latex md)))
  '(package-selected-packages
    (quote
-    (doom-themes org-mu4e ox-twbs evil-org use-package-ensure-system-package evil-collection org-bullets load-theme-buffer-local dashboard helm-projectile projectile all-the-icons-dired doom-modeline poet-theme deadgrep benchmark-init esup helm-ag helm-rg php-boris-minor-mode php-mode phps-mode cider gnu-elpa-keyring-update evil-magit magit yaml-mode go-mode color-theme-sanityinc-tomorrow visual-fill-column olivetti solidity-mode rainbow-delimiters racket-mode powerline seti-theme dracula-theme sublime-themes orgalist molokai-theme evil))))
+    (ox-tufte doom-themes org-mu4e ox-twbs evil-org use-package-ensure-system-package evil-collection org-bullets load-theme-buffer-local dashboard helm-projectile projectile all-the-icons-dired doom-modeline poet-theme deadgrep benchmark-init esup helm-ag helm-rg php-boris-minor-mode php-mode phps-mode cider gnu-elpa-keyring-update evil-magit magit yaml-mode go-mode color-theme-sanityinc-tomorrow visual-fill-column olivetti solidity-mode rainbow-delimiters racket-mode powerline seti-theme dracula-theme sublime-themes orgalist molokai-theme evil))))
 
 (eval-when-compile
   (require 'use-package))
@@ -103,6 +104,7 @@
   :ensure t
   :after org
   :config
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
   (add-hook 'org-mode-hook 'evil-org-mode)
   (add-hook 'evil-org-mode-hook
             (lambda ()
@@ -112,8 +114,17 @@
 
 (use-package helm
   :ensure t
-  :config
-  (helm-mode 1))
+  :init
+  (helm-mode 1)
+  :bind (("C-x C-f" . helm-find-files)
+         ("C-x b"   . helm-mini)
+         ("C-h a"   . helm-apropos)))
+
+(use-package helm-config
+  :init
+  (global-set-key (kbd "C-c h") 'helm-command-prefix))
+
+
 (use-package visual-fill-column
   :ensure t)
 (use-package markdown-mode
@@ -134,6 +145,12 @@
   (setq org-archive-location (concat org-directory "/done.org_archive::datetree/"))
   (setq org-default-notes-file (concat org-directory "/todo.org"))
   (setq org-agenda-files '("~/org"))
+  :ensure t)
+(use-package ox-twbs
+  :after org
+  :ensure t)
+(use-package ox-tufte
+  :after org
   :ensure t)
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode)
