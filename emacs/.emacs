@@ -51,7 +51,7 @@
  '(org-export-backends (quote (ascii beamer html icalendar latex md)))
  '(package-selected-packages
    (quote
-    (ox-tufte doom-themes org-mu4e ox-twbs evil-org use-package-ensure-system-package evil-collection org-bullets load-theme-buffer-local dashboard helm-projectile projectile all-the-icons-dired doom-modeline poet-theme deadgrep benchmark-init esup helm-ag helm-rg php-boris-minor-mode php-mode phps-mode cider gnu-elpa-keyring-update evil-magit magit yaml-mode go-mode color-theme-sanityinc-tomorrow visual-fill-column olivetti solidity-mode rainbow-delimiters racket-mode powerline seti-theme dracula-theme sublime-themes orgalist molokai-theme evil))))
+    (helm-xref dumb-jump dumb-diff rust-mode sass-mode ox-tufte doom-themes org-mu4e ox-twbs evil-org use-package-ensure-system-package evil-collection org-bullets load-theme-buffer-local dashboard helm-projectile projectile all-the-icons-dired doom-modeline poet-theme deadgrep benchmark-init esup helm-ag helm-rg php-boris-minor-mode php-mode phps-mode cider gnu-elpa-keyring-update evil-magit magit yaml-mode go-mode color-theme-sanityinc-tomorrow visual-fill-column olivetti solidity-mode rainbow-delimiters racket-mode powerline seti-theme dracula-theme sublime-themes orgalist molokai-theme evil))))
 
 (eval-when-compile
   (require 'use-package))
@@ -87,7 +87,15 @@
   (helm-projectile-on)
   :bind ("C-c p" . 'projectile-command-map)
   :ensure t)
-
+(use-package dumb-jump
+  :config
+  (setq dumb-jump-prefer-searcher 'rg)
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  :ensure t)
+(use-package go-mode
+  :bind (:map go-mode-map
+              ("C-c C-j" . nil))
+  :ensure t)
 (use-package evil
   :ensure t
   :init
@@ -123,6 +131,9 @@
 (use-package helm-config
   :init
   (global-set-key (kbd "C-c h") 'helm-command-prefix))
+
+(use-package helm-xref
+  :ensure t)
 
 
 (use-package visual-fill-column
