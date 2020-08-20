@@ -12,6 +12,7 @@ cd .dotfiles/
 stow emacs
 stow mail
 stow vim
+stow systemd --target=/home/atharva/.config/systemd/
 stow konsole --target=/home/atharva/.local/share/konsole/
 stow vim-colour --target=/home/atharva/.vim/base16-railscasts.vim
 #+END_SRC
