@@ -51,7 +51,7 @@
  '(org-export-backends (quote (ascii beamer html icalendar latex md)))
  '(package-selected-packages
    (quote
-    (helm-xref dumb-jump dumb-diff rust-mode sass-mode ox-tufte doom-themes org-mu4e ox-twbs evil-org use-package-ensure-system-package evil-collection org-bullets load-theme-buffer-local dashboard helm-projectile projectile all-the-icons-dired doom-modeline poet-theme deadgrep benchmark-init esup helm-ag helm-rg php-boris-minor-mode php-mode phps-mode cider gnu-elpa-keyring-update evil-magit magit yaml-mode go-mode color-theme-sanityinc-tomorrow visual-fill-column olivetti solidity-mode rainbow-delimiters racket-mode powerline seti-theme dracula-theme sublime-themes orgalist molokai-theme evil))))
+    (org-re-reveal helm-xref dumb-jump dumb-diff rust-mode sass-mode ox-tufte doom-themes org-mu4e ox-twbs evil-org use-package-ensure-system-package evil-collection org-bullets load-theme-buffer-local dashboard helm-projectile projectile all-the-icons-dired doom-modeline poet-theme deadgrep benchmark-init esup helm-ag helm-rg php-boris-minor-mode php-mode phps-mode cider gnu-elpa-keyring-update evil-magit magit yaml-mode go-mode color-theme-sanityinc-tomorrow visual-fill-column olivetti solidity-mode rainbow-delimiters racket-mode powerline seti-theme dracula-theme sublime-themes orgalist molokai-theme evil))))
 
 (eval-when-compile
   (require 'use-package))
@@ -156,12 +156,23 @@
   (setq org-archive-location (concat org-directory "/done.org_archive::datetree/"))
   (setq org-default-notes-file (concat org-directory "/todo.org"))
   (setq org-agenda-files '("~/org"))
+  (setq org-export-time-stamp-file nil)
+  (setq org-export-with-toc nil)
+  (setq org-export-with-section-numbers nil)
+  (setq org-export-with-author nil)
   :ensure t)
 (use-package ox-twbs
   :after org
   :ensure t)
 (use-package ox-tufte
   :after org
+  :ensure t)
+(use-package org-re-reveal
+  :after org
+  :custom
+  (org-re-reveal-root "file:///home/atharva/reveal")
+  (org-re-reveal-revealjs-version "4")
+  (org-re-reveal-transition "slide")
   :ensure t)
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode)
